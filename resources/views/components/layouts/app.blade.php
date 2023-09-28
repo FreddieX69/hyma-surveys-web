@@ -12,6 +12,7 @@
     <link rel="shortcut icon" href="/assets/images/logo/favicon.png" type="image/png">
     <link rel="stylesheet" href="/assets/css/shared/iconly.css">
     <link rel="stylesheet" href="assets/extensions/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @stack('style')
     @livewireStyles
@@ -101,13 +102,47 @@
         </footer>
     </div>
 </div>
+@livewireScripts
+<script>
+    Livewire.on('toast-notify', ({type, message}) => {
+        let color
+        let name
+        switch (type) {
+            case 'success':
+                color = '#4fbe87'
+                name = 'Éxito: '
+                break;
+            case 'error':
+                color = '#d37171'
+                name = 'Error: '
+                break;
+            case 'info':
+                color = '#FFFFF'
+                name = 'Información: '
+                break;
+            default:
+                // warning
+                color = '#fcbb44'
+                name = 'Advertencia: '
+        }
+        Toastify({
+            text: name + message,
+            stopOnFocus: true,
+            duration: 3000,
+            close:true,
+            gravity:"top",
+            position: "center",
+            className: "info",
+            backgroundColor: color,
+        }).showToast();
+    })
+</script>
+@stack('scripts')
 <script src="/assets/js/bootstrap.js"></script>
 <script src="/assets/js/app.js"></script>
-
-<!-- Need: Apexcharts -->
 <script src="/assets/extensions/apexcharts/apexcharts.min.js"></script>
 <script src="/assets/js/pages/dashboard.js"></script>
-
+<script src="/assets/extensions/toastify-js/src/toastify.js"></script>
 </body>
 </html>
 

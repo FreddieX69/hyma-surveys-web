@@ -21,4 +21,9 @@ class Controller extends BaseController
         Auth::logout();
         return redirect(route('login'));
     }
+
+    public function error404()
+    {
+        return view('errors.404');
+    }
 }
