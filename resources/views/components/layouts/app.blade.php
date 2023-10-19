@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ env('APP_NAME') }}</title>
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="/assets/css/main/app.css">
     <link rel="stylesheet" href="/assets/css/main/app-dark.css">
     <link rel="shortcut icon" href="/assets/images/logo/favicon.svg" type="image/x-icon">
     <link rel="shortcut icon" href="/assets/images/logo/favicon.png" type="image/png">
     <link rel="stylesheet" href="/assets/css/shared/iconly.css">
-    <link rel="stylesheet" href="assets/extensions/@fortawesome/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="assets/extensions/toastify-js/src/toastify.css">
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href="/assets/extensions/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/assets/extensions/toastify-js/src/toastify.css">
+
+
     @stack('style')
-    @livewireStyles
+    @livewireScriptConfig
     <style>
         .fontawesome-icons {
             text-align: center;
@@ -74,14 +77,14 @@
                         <li>
                             <a class="dropdown-item d-flex align-items-center"  href="#">
                                 <span class="fa-fw select-all fas"></span>
-                                <span>&nbsp; Perfil</span>
+                                <span>&nbsp;Perfil</span>
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center"  href="#" onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
                                 <span class="fa-fw select-all fas"></span>
-                                <span>&nbsp; Salir</span>
+                                <span>&nbsp;Salir</span>
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -96,7 +99,7 @@
         <footer>
             <div class="footer clearfix mb-0 text-muted">
                 <div class="text-center">
-                    <p>Desarrollado por Fredy Xalín {{ date('Y') }} &copy; </p>
+                    <p>Desarrollado por Fredy Xalín {{ date('Y') }}</p>
                 </div>
             </div>
         </footer>

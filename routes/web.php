@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\Controller;
-use App\Livewire\App\Dashboard;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
+use App\Livewire\App\Dashboard\Dashboard;
+use App\Livewire\App\Forms\Settings;
+use App\Livewire\App\Users\Users;
 use App\Livewire\Auth\ChangePassword;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
@@ -25,5 +29,12 @@ Route::get('error-404', [Controller::class, 'error404'])->name('404');
 Route::middleware('auth')->group(function () {
     Route::get('home', [Controller::class, 'homeRoute'])->name('home');
     Route::get('dashboard', Dashboard::class)->name('dashboard');
+    Route::get('users', Users::class)->name('users');
+    Route::get('forms-settings', Settings::class)->name('forms-settings');
+
+
+    Route::resource('roles', RoleController::class);
+    Route::resource('permissions', PermissionController::class);
     Route::post('logout', [Controller::class, 'logout'])->name('logout');
+
 });
