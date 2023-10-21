@@ -1,24 +1,46 @@
 <div class="card">
-    <div class="card-header">
+    <div class="card-body">
         <div class="card-title">
             <h3>Mantenimiento de formularios</h3>
         </div>
-    </div>
-    <hr class="my-2">
-    <div class="card-body">
+        <hr class="my-2">
         <strong>
             <h5>Seleccione el formulario a editar</h5>
         </strong>
         <div class="row p-1" style="font-size: large">
             <div class="col-auto">
                 <div class="form-check form-switch">
-                    <input wire:model="form_initial_data"
-                           wire:click="changeForm('form_initial_data', 'FICHA INICIAL')"
+                    <input wire:model="form_initial_data_adult"
+                           wire:click="changeForm('form_initial_data_adult', 'FICHA INICIAL ADULTO - MÉDICO')"
                            class="form-check-input"
                            type="checkbox"
-                           id="form_initial_data">
-                    <label class="form-check-label" for="form_initial_data">
-                        <strong>FICHA INICIAL</strong>
+                           id="form_initial_data_adult">
+                    <label class="form-check-label" for="form_initial_data_adult">
+                        <strong>FICHA INICIAL ADULTO - MÉDICO</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="form-check form-switch">
+                    <input wire:model="form_initial_data_child"
+                           wire:click="changeForm('form_initial_data_child', 'FICHA INICIAL NIÑO - MÉDICO')"
+                           class="form-check-input"
+                           type="checkbox"
+                           id="form_initial_data_child">
+                    <label class="form-check-label" for="form_initial_data_child">
+                        <strong>FICHA INICIAL ADULTO NIÑO - MÉDICO</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="form-check form-switch">
+                    <input wire:model="form_initial_data_social_worker"
+                           wire:click="changeForm('form_initial_data_social_worker', 'FICHA INICIAL - TRABAJO SOCIAL')"
+                           class="form-check-input"
+                           type="checkbox"
+                           id="form_initial_data_social_worker">
+                    <label class="form-check-label" for="form_initial_data_social_worker">
+                        <strong>FICHA INICIAL - TRABAJO SOCIAL</strong>
                     </label>
                 </div>
             </div>
@@ -35,7 +57,7 @@
             </div>
         </div>
         @if($alert)
-            <div class="alert alert-success col-4" >
+            <div class="alert alert-success col-lg-4" >
                 <strong>Formulario seleccionado: {{ $alert }}</strong>
             </div>
             <form wire:submit="saveField" >
@@ -58,7 +80,7 @@
                             wire:model.live="field.type">
                             <option value="">Elija una opción</option>
                             @foreach($fieldTypes as $fieldType)
-                                <option value="{{ $fieldType->value }}">{{ $fieldType->name }}</option>
+                                <option value="{{ $fieldType->value }}">{{ implode(' ', preg_split('/(?=[A-Z])/', $fieldType->name)) }}</option>
                             @endforeach
                         </x-inputs.select>
                     </x-inputs.group>
@@ -96,7 +118,7 @@
                             <strong class=" text-start">
                                 <h6>Respuestas disponibles</h6>
                             </strong>
-                            <x-inputs.group class="col-6" >
+                            <x-inputs.group class="col-lg-6" >
                                 @error('field.answers')
                                 <p class="text-danger" role="alert">Debes agregar respuestas</p>
                                 @enderror
@@ -104,10 +126,10 @@
                                     @forelse ($field['answers'] ?? [] as $key => $answer)
                                         <li class="list-group-item">
                                             <div class="row">
-                                                <div class="col-10">
+                                                <div class="col-lg-10">
                                                     {{ $answer }}
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-lg-2">
                                                     <button type="button"
                                                             class="btn btn-sm btn-primary"
                                                             title="Editar"
@@ -143,7 +165,8 @@
             <strong class="text-start">
                 <h5>Lista de campos</h5>
             </strong>
-            <table class="table">
+            <div class="table-responsive">
+                <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Nombre</th>
@@ -178,8 +201,8 @@
                             <button type="button"
                                     class="btn btn-sm btn-danger"
                                     title="Eliminar"
-                                    wire:click="showModal('{{ $field_form->id }}')"
-                                    wire:confirm="Atención: Si elimina este campo no podrá ver las respuestas de los formularios ya realizados">
+                                    wire:click="deleteField('{{ $field_form->id }}')"
+                                    wire:confirm="Atención: Si elimina este campo no podrá ver las respuestas de los formularios ya realizados.">
                                 <i class="bi bi-trash3"></i>
                             </button>
                         </td>
@@ -191,8 +214,9 @@
                 @endforelse
                 </tbody>
             </table>
+            </div>
         @else
-            <div class="alert alert-primary col-4" role="alert">
+            <div class="alert alert-primary col-lg-4" role="alert">
                 Ningún formulario seleccionado
             </div>
         @endif

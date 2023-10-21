@@ -10,6 +10,8 @@
     $isPermissions = Request::is($urlPermissions, $urlPermissions.$nested);
     $urlFormSettings = basename(route('forms-settings'));
     $isFormSettings = Request::is($urlFormSettings, $urlFormSettings.$nested);
+    $urlMedicModule = basename(route('initial-data-medic'));
+    $isMedicModule = Request::is($urlMedicModule, $urlMedicModule.$nested);
 @endphp
 <div class="sidebar-menu">
     <ul class="menu">
@@ -34,6 +36,13 @@
             <a href="{{ route('forms-settings') }}" class='sidebar-link'>
                 <i class="bi bi-ui-checks"></i>
                 <span>Formularios</span>
+            </a>
+        </li>
+        <li
+            class="sidebar-item {{ $isMedicModule ? 'active' : '' }}">
+            <a href="{{ route('initial-data-medic') }}" class='sidebar-link'>
+                <i class="bi bi-clipboard2-pulse"></i>
+                <span>Ficha médica</span>
             </a>
         </li>
         <li

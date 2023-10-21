@@ -12,10 +12,12 @@
             </h4>
 
             <form
-                method="PUT"
+                method="POST"
                 action="{{ route('permissions.update', $permission) }}"
                 class="mt-4"
             >
+                @csrf
+                @method('PUT')
                 @include('app.permissions.form-inputs')
 
                 <div class="mt-4">

@@ -17,8 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('form_id');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('social_worker_id');
-            $table->json('response');
+            $table->unsignedBigInteger('social_worker_id')->nullable();
             $table->timestamps();
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->foreign('form_id')->references('id')->on('forms');

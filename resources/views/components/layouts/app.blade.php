@@ -10,8 +10,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="/assets/css/main/app.css">
     <link rel="stylesheet" href="/assets/css/main/app-dark.css">
-    <link rel="shortcut icon" href="/assets/images/logo/favicon.svg" type="image/x-icon">
-    <link rel="shortcut icon" href="/assets/images/logo/favicon.png" type="image/png">
     <link rel="stylesheet" href="/assets/css/shared/iconly.css">
     <link rel="stylesheet" href="/assets/extensions/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="/assets/extensions/toastify-js/src/toastify.css">
@@ -139,12 +137,14 @@
             backgroundColor: color,
         }).showToast();
     })
+    Livewire.on('scroll-screen', () => {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    })
 </script>
 @stack('scripts')
 <script src="/assets/js/bootstrap.js"></script>
 <script src="/assets/js/app.js"></script>
-<script src="/assets/extensions/apexcharts/apexcharts.min.js"></script>
-<script src="/assets/js/pages/dashboard.js"></script>
 <script src="/assets/extensions/toastify-js/src/toastify.js"></script>
 </body>
 </html>

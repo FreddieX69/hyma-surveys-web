@@ -12,7 +12,7 @@ class FormSeeder extends Seeder
      */
     public function run(): void
     {
-        $forms = ['Ficha Inicial', 'Estudio Socioeconómico'];
+        $forms = ['Ficha Inicial - Médico', 'Ficha Inicial - Trabajo social', 'Estudio Socioeconómico'];
         foreach ($forms as $form) {
             Form::create([
                 'description' => $form

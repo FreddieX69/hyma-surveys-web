@@ -6,6 +6,7 @@
     'min' => null,
     'max' => null,
     'step' => null,
+    'required'
 ])
 
 @if($label ?? null)
@@ -17,7 +18,6 @@
     id="{{ $name }}"
     name="{{ $name }}"
     value="{{ old($name, $value ?? '') }}"
-    {{ ($required ?? false) ? 'required' : '' }}
     {{ $attributes->merge(['class' => 'form-control']) }}
     {{ $min ? "min={$min}" : '' }}
     {{ $max ? "max={$max}" : '' }}

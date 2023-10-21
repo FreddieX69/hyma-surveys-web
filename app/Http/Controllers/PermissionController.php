@@ -41,7 +41,6 @@ class PermissionController extends Controller
     */
     public function store(Request $request): RedirectResponse
     {
-
         $this->authorize('Crear permisos');
 
         $data = $this->validate($request, [

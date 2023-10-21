@@ -6,20 +6,25 @@ use App\Enums\FieldTypes;
 use App\Models\Field;
 use App\Models\Form;
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class Settings extends Component
 {
-    public $form_initial_data, $form_socio_economic_study, $alert, $field = [], $field_answer, $modal_edit = false,
-            $answerEdit;
+    use AuthorizesRequests;
+
+    public $form_initial_data_adult, $form_initial_data_child, $form_socio_economic_study, $form_initial_data_social_worker, $alert, $field = [],
+        $field_answer, $modal_edit = false, $answerEdit;
     public ?Form $form;
     public ?Field $fieldEdit;
     public Collection $fieldTypes;
 
     public function mount(): void
     {
+        $this->authorize('Editar formulario');
         $this->fieldTypes = collect(FieldTypes::cases());
+        $this->field['required'] = false;
     }
 
     public function showModalEdit($field_id): void
@@ -32,10 +37,83 @@ class Settings extends Component
             $this->field['answers'] = $this->fieldEdit->answers()->orderBy('id', 'ASC')
                 ->pluck('description', 'id')->toArray();
         }
+        $this->dispatch('scroll-screen');
         $this->dispatch('toast-notify',
             type: 'info',
             message: 'Editando el campo '.$this->fieldEdit->description
         );
+    }
+
+    public function saveField(): void
+    {
+        $field_data = $this->fieldGeneralData();
+        $field = $this->form->fields()->create([
+            'description' => $field_data['name'],
+            'type' => $field_data['type'],
+            'required' => $field_data['required'] ?? false
+        ]);
+        if ($this->field['type'] == 6) {
+            foreach ($field_data['answers'] as $answer) {
+                $field->answers()->create([
+                    'description' => $answer
+                ]);
+            }
+        }
+        $this->field = [];
+        $this->dispatch('toast-notify',
+            type: 'success',
+            message: 'Se ha guardado el campo'
+        );
+    }
+
+    public function updateField(): void
+    {
+        $field_data = $this->fieldGeneralData();
+        $this->fieldEdit->update([
+            'description' => $field_data['name'],
+            'type' => $field_data['type'],
+            'required' => $field_data['required']  ?? false
+        ]);
+        if ($this->field['type'] == 6) {
+            $field_answers = $this->fieldEdit->answers;
+            foreach ($field_answers as $answer) {
+                if (key_exists($answer->id, $this->field['answers'])) {
+                    $answer->update([
+                        'description' => $this->field['answers'][$answer->id]
+                    ]);
+                } else {
+                    $answer->delete();
+                }
+            }
+            foreach ($this->field['answers'] as $key => $answer_name) {
+                if (is_string($key)) {
+                    $this->fieldEdit->answers()->create([
+                        'description' => $answer_name
+                    ]);
+                }
+            }
+        }
+        $this->field = [];
+        $this->dispatch('toast-notify',
+            type: 'success',
+            message: 'Campo actualizado correctamente'
+        );
+    }
+
+    public function deleteField(Field $field): void
+    {
+        try {
+            $field->delete();
+            $this->dispatch('toast-notify',
+                type: 'success',
+                message: 'Se ha eliminado el campo'
+            );
+        } catch (\Exception) {
+            $this->dispatch('toast-notify',
+                type: 'error',
+                message: 'Este campo ya tiene respuestas'
+            );
+        }
     }
 
     public function clearField($type): void
@@ -78,6 +156,7 @@ class Settings extends Component
             );
         }
     }
+
     public function updateAnswer(): void
     {
         $this->field['answers'][$this->answerEdit] = $this->field_answer;
@@ -90,69 +169,23 @@ class Settings extends Component
         $this->field = [];
         $this->answerEdit = null;
         $this->field_answer = null;
+
         $bool_action = $this->$form_name;
+
+        $this->form_initial_data_adult = false;
+        $this->form_initial_data_child = false;
         $this->form_socio_economic_study = false;
-        $this->form_initial_data = false;
+        $this->form_initial_data_social_worker = false;
+
         $this->$form_name = $bool_action;
 
-        if ($this->form_initial_data || $this->form_socio_economic_study) {
+        if ($this->form_initial_data_adult || $this->form_initial_data_child || $this->form_socio_economic_study || $this->form_initial_data_social_worker) {
             $this->alert = $description;
-            $id_form = $this->form_initial_data ? 1 : 2;
+            $id_form = !$this->form_initial_data_adult ? !$this->form_initial_data_child ? !$this->form_initial_data_social_worker ? 4 : 3 : 2 : 1;
             $this->form = Form::find($id_form);
         } else {
             $this->form = null;
             $this->alert = null;
-        }
-    }
-
-    public function saveField(): void
-    {
-        $field_data = $this->fieldGeneralData();
-        $field = $this->form->fields()->create([
-            'description' => $field_data['name'],
-            'type' => $field_data['type'],
-            'required' => $field_data['required']
-        ]);
-        if ($this->field['type'] == 6) {
-            foreach ($field_data['answers'] as $answer) {
-                $field->answers()->create([
-                    'description' => $answer
-                ]);
-            }
-        }
-        $this->field = [];
-        $this->dispatch('toast-notify',
-            type: 'success',
-            message: 'Se ha guardado el campo'
-        );
-    }
-
-    public function updateField(): void
-    {
-        $field_data = $this->fieldGeneralData();
-        $this->fieldEdit->update([
-            'description' => $field_data['name'],
-            'type' => $field_data['type'],
-            'required' => $field_data['required']
-        ]);
-        if ($this->field['type'] == 6) {
-            $field_answers = $this->fieldEdit->answers;
-            foreach ($field_answers as $answer) {
-                if (key_exists($answer->id, $this->field['answers'])) {
-                    $answer->update([
-                        'description' => $this->field['answers'][$answer->id]
-                    ]);
-                } else {
-                    $answer->delete();
-                }
-            }
-            foreach ($this->field['answers'] as $key => $answer_name) {
-                if (is_string($key)) {
-                    $this->fieldEdit->answers()->create([
-                        'description' => $answer_name
-                    ]);
-                }
-            }
         }
     }
 
@@ -170,14 +203,14 @@ class Settings extends Component
         $fields_validate = [
             'field.name' => ['required', 'string'],
             'field.type' => ['required', 'integer'],
-            'field.required' => ['required', 'bool'],
+            'field.required' => ['nullable', 'bool'],
         ];
         if (($this->field['type'] ?? null) == 6) {
             $fields_validate['field.answers'] = ['required', 'array'];
         }
         $this->validate($fields_validate);
         $field_data = $this->field;
-        $id_form = $this->form_initial_data ? 1 : 2;
+        $id_form = !$this->form_initial_data_adult ? !$this->form_initial_data_child ? !$this->form_initial_data_social_worker ? 4 : 3 : 2 : 1;
         $this->form = Form::find($id_form);
         return $field_data;
     }

@@ -16,6 +16,7 @@
                 action="{{ route('roles.store') }}"
                 class="mt-4"
             >
+                @csrf
                 @include('app.roles.form-inputs')
 
                 <div class="mt-4">

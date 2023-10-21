@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable();
             $table->json('phones')->nullable();
-            $table->text('address')->nullable();
-            $table->integer('age')->nullable();
+            $table->integer('type')->comment('1: Niño, 2: adulto');
+            $table->integer('initial_data')->default(0)->comment('1: Ficha medica, 2: Ficha trabajo social');
+            $table->integer('socio_economic_study')->nullable();
             $table->timestamps();
         });
     }

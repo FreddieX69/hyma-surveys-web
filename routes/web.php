@@ -5,6 +5,8 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Livewire\App\Dashboard\Dashboard;
 use App\Livewire\App\Forms\Settings;
+use App\Livewire\App\InitialData\Medic\MedicFillForm;
+use App\Livewire\App\InitialData\Medic\MedicIndex;
 use App\Livewire\App\Users\Users;
 use App\Livewire\Auth\ChangePassword;
 use App\Livewire\Auth\ForgotPassword;
@@ -31,7 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', Dashboard::class)->name('dashboard');
     Route::get('users', Users::class)->name('users');
     Route::get('forms-settings', Settings::class)->name('forms-settings');
-
+    Route::get('initial-data-medic', MedicIndex::class)->name('initial-data-medic');
+    Route::get('medic-fill-form', MedicFillForm::class)->name('medic-fill-form');
 
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);

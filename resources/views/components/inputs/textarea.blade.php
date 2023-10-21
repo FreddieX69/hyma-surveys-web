@@ -1,15 +1,16 @@
 @props([
     'name',
     'label',
+    'required'
 ])
 
 @if($label ?? null)
     @include('components.inputs.partials.label')
 @endif
 
-<textarea 
+<textarea
     id="{{ $name }}"
-    name="{{ $name }}" 
+    name="{{ $name }}"
     rows="3"
     {{ ($required ?? false) ? 'required' : '' }}
     {{ $attributes->merge(['class' => 'form-control']) }}
