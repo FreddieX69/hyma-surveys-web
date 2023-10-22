@@ -29,9 +29,9 @@ class FillForm extends Component
             $this->email = $this->patient->email;
             $this->type = $this->patient->type;
 
-            //TODO: QUITAR ESTO ALV - ES SOLO PARA PROBAR
-            $this->form = Form::find(1);
-            $this->prepareForm();
+//            //TODO: QUITAR ESTO ALV - ES SOLO PARA PROBAR
+//            $this->form = Form::find(1);
+//            $this->prepareForm();
         }
     }
 
@@ -74,8 +74,13 @@ class FillForm extends Component
         if ($this->form_type == 1) {
             // Cuando es una ficha inicial médica
             $id = $this->patient->type == 1 ? 1 : 2;
-            $this->form = Form::find($id);
+        } elseif ($this->form_type == 3) {
+            $id = 3;
+        } else {
+            $id = 4;
         }
+        $this->form = Form::find($id);
+        $this->prepareForm();
     }
 
     public function finishForm(): void
@@ -108,13 +113,20 @@ class FillForm extends Component
             }
             $this->patientForm->formResponses()->create($array);
         }
-        $this->patient->initial_data = 1;
+
+        if ($this->form_type == 1 || $this->form_type == 2) {
+            $this->patient->initial_data = 1;
+        } elseif ($this->form_type == 3) {
+            $this->patient->initial_data = 2;
+        } elseif ($this->form_type == 4) {
+            $this->patient->socio_economic_study = 1;
+        }
         $this->patient->save();
         $this->dispatch('toast-notify',
             type: 'success',
             message: 'Formulario finalizado correctamente'
         );
-        $this->redirectRoute('initial-data-medic');
+        $this->redirectRoute('patients-index');
     }
 
     public function render(): View

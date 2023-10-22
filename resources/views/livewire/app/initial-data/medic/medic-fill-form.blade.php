@@ -4,6 +4,6 @@
             <h3>Nueva ficha médica</h3>
         </div>
         <hr class="my-2">
-        <livewire:app.forms.fill-form :form_type="1" :patient_id="1" />
+        <livewire:app.forms.fill-form :form_type="1"/>
     </div>
 </div>

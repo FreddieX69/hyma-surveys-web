@@ -12,11 +12,16 @@
     $isFormSettings = Request::is($urlFormSettings, $urlFormSettings.$nested);
     $urlMedicModule = basename(route('initial-data-medic'));
     $isMedicModule = Request::is($urlMedicModule, $urlMedicModule.$nested);
+    $urlSocioEconomicStudy = basename(route('socio-economic-index'));
+    $isSocioEconomicStudy = Request::is($urlSocioEconomicStudy, $urlSocioEconomicStudy.$nested);
+    $urlSocioSocialWorkerIndex = basename(route('social-worker-index'));
+    $isSocioSocialWorkerIndex = Request::is($urlSocioSocialWorkerIndex, $urlSocioSocialWorkerIndex.$nested);
+    $urlPatients = basename(route('patients-index'));
+    $isPatients = Request::is($urlPatients, $urlPatients.$nested);
 @endphp
 <div class="sidebar-menu">
     <ul class="menu">
         <li class="sidebar-title">Menu</li>
-
         <li
             class="sidebar-item {{ $isDashboard ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}" class='sidebar-link'>
@@ -39,10 +44,31 @@
             </a>
         </li>
         <li
+            class="sidebar-item {{ $isPatients ? 'active' : '' }}">
+            <a href="{{ route('patients-index') }}" class='sidebar-link'>
+                <i class="bi bi-person-fill-add"></i>
+                <span>Pacientes</span>
+            </a>
+        </li>
+        <li
             class="sidebar-item {{ $isMedicModule ? 'active' : '' }}">
             <a href="{{ route('initial-data-medic') }}" class='sidebar-link'>
                 <i class="bi bi-clipboard2-pulse"></i>
-                <span>Ficha médica</span>
+                <span>Fichas médicas</span>
+            </a>
+        </li>
+        <li
+            class="sidebar-item {{ $isSocioSocialWorkerIndex ? 'active' : '' }}">
+            <a href="{{ route('social-worker-index') }}" class='sidebar-link'>
+                <i class="bi bi-ui-checks-grid"></i>
+                <span>Fichas trabajo social</span>
+            </a>
+        </li>
+        <li
+            class="sidebar-item {{ $isSocioEconomicStudy ? 'active' : '' }}">
+            <a href="{{ route('socio-economic-index') }}" class='sidebar-link'>
+                <i class="bi bi-ui-checks"></i>
+                <span>Estudios socioeconómicos</span>
             </a>
         </li>
         <li
@@ -59,61 +85,5 @@
                 <span>Permisos</span>
             </a>
         </li>
-
-{{--        <li--}}
-{{--            class="sidebar-item  has-sub">--}}
-{{--            <a href="#" class='sidebar-link'>--}}
-{{--                <i class="bi bi-stack"></i>--}}
-{{--                <span>Components</span>--}}
-{{--            </a>--}}
-{{--            <ul class="submenu ">--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Alert</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Badge</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Breadcrumb</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Button</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Card</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Carousel</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Collapse</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Dropdown</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">List Group</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Modal</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Navs</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Pagination</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Progress</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Spinner</a>--}}
-{{--                </li>--}}
-{{--                <li class="submenu-item ">--}}
-{{--                    <a href="/">Tooltip</a>--}}
-{{--                </li>--}}
-{{--            </ul>--}}
-{{--        </li>--}}
-
     </ul>
 </div>

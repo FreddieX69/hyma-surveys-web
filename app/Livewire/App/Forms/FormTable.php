@@ -116,8 +116,10 @@ class FormTable extends DataTableComponent
                     })->orWhereHas('patient', function ($patient) use ($value) {
                         $patient->search($value);
                     });
-                }),
-            SelectFilter::make('Tipo de paciente')
+                })
+        ];
+        if ($this->form->id == 4) {
+            $columns[] = SelectFilter::make('Tipo de paciente')
                 ->options([
                     '' => 'Todo',
                     '1' => 'Adulto',
@@ -127,8 +129,8 @@ class FormTable extends DataTableComponent
                     $builder->whereHas('patient', function ($patient) use ($value) {
                         $patient->where('type',$value);
                     });
-                })
-        ];
+                });
+        }
         $collect_fields = collect($this->fields);
         $fields = $collect_fields->whereNotIn('type', [0,1,2,4]);
         foreach ($fields as $field) {

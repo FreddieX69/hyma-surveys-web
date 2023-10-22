@@ -4,9 +4,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Livewire\App\Dashboard\Dashboard;
+use App\Livewire\App\Forms\FillForm;
 use App\Livewire\App\Forms\Settings;
 use App\Livewire\App\InitialData\Medic\MedicFillForm;
 use App\Livewire\App\InitialData\Medic\MedicIndex;
+use App\Livewire\App\InitialData\SocialWorker\SocialWorkerFillForm;
+use App\Livewire\App\InitialData\SocialWorker\SocialWorkerIndex;
+use App\Livewire\App\Patients\PatientsIndex;
+use App\Livewire\App\SocioEconomicStudies\SocioEconomicIndex;
 use App\Livewire\App\Users\Users;
 use App\Livewire\Auth\ChangePassword;
 use App\Livewire\Auth\ForgotPassword;
@@ -35,6 +40,11 @@ Route::middleware('auth')->group(function () {
     Route::get('forms-settings', Settings::class)->name('forms-settings');
     Route::get('initial-data-medic', MedicIndex::class)->name('initial-data-medic');
     Route::get('medic-fill-form', MedicFillForm::class)->name('medic-fill-form');
+    Route::get('fill-form/{form_type}/{patient_id}', FillForm::class)->name('fill-form');
+    Route::get('socio-economic-study', SocioEconomicIndex::class)->name('socio-economic-index');
+    Route::get('social-worker-index', SocialWorkerIndex::class)->name('social-worker-index');
+    Route::get('social-worker-fill', SocialWorkerFillForm::class)->name('social-worker-fill-form');
+    Route::get('patients', PatientsIndex::class)->name('patients-index');
 
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
