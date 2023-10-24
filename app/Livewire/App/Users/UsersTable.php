@@ -2,6 +2,7 @@
 
 namespace App\Livewire\App\Users;
 
+use Livewire\Attributes\On;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Exceptions\DataTableConfigurationException;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -20,22 +21,36 @@ class UsersTable extends DataTableComponent
         $this->setSearchDebounce(500);
     }
 
+    #[On('refreshTable')]
+    public function refreshTable(): void
+    {
+        // TODO: Es suficiente para refrescar la tabla - NO BORRAR ESTE MÉTODO
+    }
+
     public function columns(): array
     {
         return [
             Column::make("Id", "id")
                 ->sortable()->searchable(),
-            Column::make("Name", "name")
+            Column::make("Nombre completo", "name")
                 ->sortable()->searchable(),
-            Column::make("Email", "email")
+            Column::make("Correo electrónico", "email")
                 ->sortable()->searchable(),
-            Column::make("Created at", "created_at")
+            Column::make("Teléfono", "phone")
                 ->sortable()->searchable(),
-            Column::make("Updated at", "updated_at")
+            Column::make("Tipo", "role")
+                ->format(function ($role, $row) {
+                    return $row->userRole->name ?? 'Desconocido';
+                })
+                ->sortable()->searchable(),
+            Column::make("Fecha creación", "created_at")
+                ->format(function ($date) {
+                    return $date->format('d/m/Y');
+                })
                 ->sortable()->searchable(),
             Column::make("Acciones", "id")
                 ->format(function ($id) {
-                    return view('components.livewire.action-buttons');
+                    return view('components.livewire.action-buttons', compact('id'));
                 })
                 ->sortable()->searchable(),
         ];
