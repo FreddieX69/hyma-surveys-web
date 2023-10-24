@@ -26,6 +26,11 @@ class PatientResponse extends Model
         return $this->hasOne(PatientForm::class, 'id', 'patient_form_id');
     }
 
+    public function field(): HasOne
+    {
+        return $this->hasOne(Field::class, 'id', 'field_id');
+    }
+
     public function field_answer(): HasOne
     {
         return $this->hasOne(FieldAnswer::class, 'id', 'field_answer_id');

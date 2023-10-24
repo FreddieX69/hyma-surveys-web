@@ -26,7 +26,7 @@
             class="sidebar-item {{ $isDashboard ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}" class='sidebar-link'>
                 <i class="bi bi-grid-fill"></i>
-                <span>Dashboard</span>
+                <span>Tablero</span>
             </a>
         </li>
         <li
