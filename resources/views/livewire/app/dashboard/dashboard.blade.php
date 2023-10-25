@@ -164,7 +164,7 @@
     </div>
 </div>
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/assets/extensions/apexcharts/apexcharts.min.js"></script>
     <script>
         let chartBar
         let chartCircle
