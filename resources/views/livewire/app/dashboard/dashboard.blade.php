@@ -98,7 +98,7 @@
                             <div class="col-lg-3">
                                 <x-inputs.select
                                     label="Formulario"
-                                    wire:model.live="form_id"
+                                    wire:model="form_id"
                                     wire:change="updateFields"
                                     name="form">
                                     @foreach($this->forms as $form)
@@ -120,7 +120,8 @@
                             <div class="col-lg-3">
                                 <x-inputs.date
                                     label="Fecha inicial"
-                                    wire:model.live="begin_date"
+                                    wire:model="begin_date"
+                                    wire:change="fillCharts(null)"
                                     name="begin_date">
                                     @foreach($this->fields as $field)
                                         <option value="{{ $field->id }}">{{ $field->description }}</option>
@@ -130,7 +131,8 @@
                             <div class="col-lg-3">
                                 <x-inputs.date
                                     label="Fecha final"
-                                    wire:model.live="end_date"
+                                    wire:model="end_date"
+                                    wire:change="fillCharts(null)"
                                     name="end_date">
                                 </x-inputs.date>
                             </div>

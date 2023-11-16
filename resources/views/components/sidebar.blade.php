@@ -22,68 +22,86 @@
 <div class="sidebar-menu">
     <ul class="menu">
         <li class="sidebar-title">Menu</li>
-        <li
-            class="sidebar-item {{ $isDashboard ? 'active' : '' }}">
-            <a href="{{ route('dashboard') }}" class='sidebar-link'>
-                <i class="bi bi-grid-fill"></i>
-                <span>Tablero</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isUsers ? 'active' : '' }}">
-            <a href="{{ route('users') }}" class='sidebar-link'>
-                <i class="bi bi-people-fill"></i>
-                <span>Usuarios</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isFormSettings ? 'active' : '' }}">
-            <a href="{{ route('forms-settings') }}" class='sidebar-link'>
-                <i class="bi bi-ui-checks"></i>
-                <span>Formularios</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isPatients ? 'active' : '' }}">
-            <a href="{{ route('patients-index') }}" class='sidebar-link'>
-                <i class="bi bi-person-fill-add"></i>
-                <span>Pacientes</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isMedicModule ? 'active' : '' }}">
-            <a href="{{ route('initial-data-medic') }}" class='sidebar-link'>
-                <i class="bi bi-clipboard2-pulse"></i>
-                <span>Fichas médicas</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isSocioSocialWorkerIndex ? 'active' : '' }}">
-            <a href="{{ route('social-worker-index') }}" class='sidebar-link'>
-                <i class="bi bi-ui-checks-grid"></i>
-                <span>Fichas trabajo social</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isSocioEconomicStudy ? 'active' : '' }}">
-            <a href="{{ route('socio-economic-index') }}" class='sidebar-link'>
-                <i class="bi bi-ui-checks"></i>
-                <span>Estudios socioeconómicos</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isRoles ? 'active' : '' }}">
-            <a href="{{ route('roles.index') }}" class='sidebar-link'>
-                <i class="bi bi-lock-fill"></i>
-                <span>Roles</span>
-            </a>
-        </li>
-        <li
-            class="sidebar-item {{ $isPermissions ? 'active' : '' }}">
-            <a href="{{ route('permissions.index') }}" class='sidebar-link'>
-                <i class="bi bi-key-fill"></i>
-                <span>Permisos</span>
-            </a>
-        </li>
+        @can('Dashboard')
+            <li
+                class="sidebar-item {{ $isDashboard ? 'active' : '' }}">
+                <a href="{{ route('dashboard') }}" class='sidebar-link'>
+                    <i class="bi bi-grid-fill"></i>
+                    <span>Tablero</span>
+                </a>
+            </li>
+        @endcan
+        @can('Módulo usuarios')
+            <li
+                class="sidebar-item {{ $isUsers ? 'active' : '' }}">
+                <a href="{{ route('users') }}" class='sidebar-link'>
+                    <i class="bi bi-people-fill"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+        @endcan
+        @can('Módulo formularios')
+            <li
+                class="sidebar-item {{ $isFormSettings ? 'active' : '' }}">
+                <a href="{{ route('forms-settings') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Formularios</span>
+                </a>
+            </li>
+        @endcan
+        @can('Lista pacientes')
+            <li
+                class="sidebar-item {{ $isPatients ? 'active' : '' }}">
+                <a href="{{ route('patients-index') }}" class='sidebar-link'>
+                    <i class="bi bi-person-fill-add"></i>
+                    <span>Pacientes</span>
+                </a>
+            </li>
+        @endcan
+        @can('Fichas médicas')
+            <li
+                class="sidebar-item {{ $isMedicModule ? 'active' : '' }}">
+                <a href="{{ route('initial-data-medic') }}" class='sidebar-link'>
+                    <i class="bi bi-clipboard2-pulse"></i>
+                    <span>Fichas médicas</span>
+                </a>
+            </li>
+        @endcan
+        @can('Fichas trabajo social')
+            <li
+                class="sidebar-item {{ $isSocioSocialWorkerIndex ? 'active' : '' }}">
+                <a href="{{ route('social-worker-index') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks-grid"></i>
+                    <span>Fichas trabajo social</span>
+                </a>
+            </li>
+        @endcan
+        @can('Estudios socioeconómicos')
+            <li
+                class="sidebar-item {{ $isSocioEconomicStudy ? 'active' : '' }}">
+                <a href="{{ route('socio-economic-index') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Estudios socioeconómicos</span>
+                </a>
+            </li>
+        @endcan
+        @can('Lista roles')
+            <li
+                class="sidebar-item {{ $isRoles ? 'active' : '' }}">
+                <a href="{{ route('roles.index') }}" class='sidebar-link'>
+                    <i class="bi bi-lock-fill"></i>
+                    <span>Roles</span>
+                </a>
+            </li>
+        @endcan
+        @can('Lista permisos')
+            <li
+                class="sidebar-item {{ $isPermissions ? 'active' : '' }}">
+                <a href="{{ route('permissions.index') }}" class='sidebar-link'>
+                    <i class="bi bi-key-fill"></i>
+                    <span>Permisos</span>
+                </a>
+            </li>
+        @endcan
     </ul>
 </div>

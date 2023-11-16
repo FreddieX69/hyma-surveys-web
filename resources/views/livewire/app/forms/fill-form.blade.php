@@ -39,7 +39,7 @@
             </strong>
             <br>
             <div class="row">
-                @foreach($this->form->fields as $field)
+                @foreach($this->form->fields()->orderBy('id')->get() as $field)
                     @php
                         $required = $field->required ? 'required' : '';
                         $model = 'form_fields.'.$field->id;

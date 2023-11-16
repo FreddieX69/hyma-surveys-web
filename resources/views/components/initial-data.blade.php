@@ -5,38 +5,48 @@
 ])
 @if($type == 1)
     @if($value == 0)
-        <div>
-            No <a class="btn btn-sm btn-primary" href="{{ route('fill-form',  ['form_type' => 1, 'patient_id' => $id]) }}" target="_blank" title="Ver Foto">Realizar</a>
-        </div>
+        @if(($patient_type ?? null) == 1)
+            <div>
+                No
+                @can('Crear ficha médica')
+                    <a class="btn btn-sm btn-primary"
+                       href="{{ route('fill-form',  ['form_type' => 1, 'patient_id' => $id]) }}" target="_blank"
+                       title="Ver Foto">Realizar</a>
+                @endcan
+            </div>
+        @else
+            <div>
+                No
+                @can('Crear ficha médica')
+                    <a class="btn btn-sm btn-primary" href="{{ route('fill-form',  ['form_type' => 2, 'patient_id' => $id]) }}" target="_blank" title="Ver Foto">Realizar</a>
+                @endcan
+            </div>
+        @endif
     @else
         <div>
             Sí
         </div>
     @endif
 @elseif($type == 2)
-    @if($value == 0)
-        <div>
-            No <a class="btn btn-sm btn-primary" href="{{ route('fill-form',  ['form_type' => 2, 'patient_id' => $id]) }}" target="_blank" title="Ver Foto">Realizar</a>
-        </div>
-    @else
+    @if($value == 2)
         <div>
             Sí
         </div>
-    @endif
-@elseif($type == 3)
-    @if($value == 0)
-        <div>
-            No <a class="btn btn-sm btn-primary" href="{{ route('fill-form',  ['form_type' => 3, 'patient_id' => $id]) }}" target="_blank" title="Ver Foto">Realizar</a>
-        </div>
     @else
         <div>
-            Sí
+            No
+            @can('Crear ficha de trabajo social')
+                <a class="btn btn-sm btn-primary" href="{{ route('fill-form',  ['form_type' => 3, 'patient_id' => $id]) }}" target="_blank" title="Ver Foto">Realizar</a>
+            @endcan
         </div>
     @endif
 @else
     @if($value == 0)
         <div>
-            No <a class="btn btn-sm btn-primary" href="{{ route('fill-form',  ['form_type' => 4, 'patient_id' => $id]) }}" target="_blank" title="Ver Foto">Realizar</a>
+            No
+            @can('Crear ficha de trabajo social')
+                <a class="btn btn-sm btn-primary" href="{{ route('fill-form',  ['form_type' => 4, 'patient_id' => $id]) }}" target="_blank" title="Ver Foto">Realizar</a>
+            @endcan
         </div>
     @else
         <div>

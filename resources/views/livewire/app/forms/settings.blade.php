@@ -177,7 +177,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($form->fields ?? [] as $field_form)
+                @forelse($form->fields()->orderBy('id')->get() ?? [] as $field_form)
                     <tr>
                         <td>{{ $field_form->description }}</td>
                         <td>{{ $fieldTypes->where('value', $field_form->type)->first()->name }}</td>

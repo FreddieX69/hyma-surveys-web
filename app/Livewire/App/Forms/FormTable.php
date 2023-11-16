@@ -34,7 +34,7 @@ class FormTable extends DataTableComponent
     {
         $this->form_id = $form_id;
         $this->form = Form::find($this->form_id);
-        $this->fields = $this->form->fields()->orderBy('id', 'ASC')->get();
+        $this->fields = $this->form->fields()->get();
     }
     public function builder(): Builder
     {
@@ -42,7 +42,7 @@ class FormTable extends DataTableComponent
     }
     public function exportSelected(): BinaryFileResponse
     {
-        $headers = $this->fields->pluck('description', 'id');
+        $headers = $this->form->fields()->orderBy('id')->pluck('description', 'id')->toArray();
         $content = $this->getSelected();
         return Excel::download(new FormExport($headers, $content), $this->form->description.'.xlsx');
     }
@@ -56,7 +56,7 @@ class FormTable extends DataTableComponent
                 return $type == 1 ? 'Adulto' : 'Niño';
             })
         ];
-        foreach ($this->fields as $field) {
+        foreach ($this->form->fields()->orderBy('id')->get() as $field) {
             if (in_array($field->type, [0,1,2,3])) {
                 $columns[] = Column::make($field->description, 'id')
                     ->format(function ($id) use ($field) {

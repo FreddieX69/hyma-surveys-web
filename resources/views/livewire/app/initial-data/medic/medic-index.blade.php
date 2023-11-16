@@ -6,7 +6,9 @@
         <hr class="my-2">
         <div class="text-center p-1">
             <a class="btn btn-sm btn-primary" href="{{ route('initial-data-medic') }}"><i class="bi bi-arrow-clockwise"></i> Recargar</a>
-            <a type="submit" class="btn btn-sm btn-success" href="{{ route('medic-fill-form') }}"><i class="bi bi-clipboard2-plus"></i> Nueva ficha</a>
+            @can('Crear ficha médica')
+                <a type="submit" class="btn btn-sm btn-success" href="{{ route('medic-fill-form') }}"><i class="bi bi-clipboard2-plus"></i> Nueva ficha</a>
+            @endcan
         </div>
         <div class="col-lg-3">
             <x-inputs.select

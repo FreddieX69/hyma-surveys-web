@@ -35,14 +35,17 @@ class PatientTable extends DataTableComponent
                 })
                 ->sortable()->searchable(),
             Column::make("Ficha inicial - Médico", "initial_data")
-                ->format(function ($value) {
-                    return $value == 1 ? 'Sí' : 'No';
+                ->format(function ($value, $row) {
+                    $id = $row->id;
+                    $type = 1;
+                    $patient_type = $row->type;
+                    return view('components.initial-data', compact('type', 'value', 'id', 'patient_type'));
                 })
                 ->sortable()->searchable(),
             Column::make("Ficha inicial - Trabajo social", "initial_data")
                 ->format(function ($value, $row) {
                     $id = $row->id;
-                    $type = 3;
+                    $type = 2;
                     return view('components.initial-data', compact('type', 'value', 'id'));
                 })
                 ->sortable()->searchable(),

@@ -22,7 +22,7 @@ class Settings extends Component
 
     public function mount(): void
     {
-        $this->authorize('Editar formulario');
+        $this->authorize('Configurar formularios');
         $this->fieldTypes = collect(FieldTypes::cases());
         $this->field['required'] = false;
     }

@@ -7,6 +7,7 @@ use App\Models\Form;
 use App\Models\Patient;
 use App\Models\PatientForm;
 use App\Models\PatientResponse;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
@@ -25,7 +26,8 @@ class Dashboard extends Component
         $this->form_id = 4;
         $this->form = $this->forms->find($this->form_id);
         $this->fields = $this->form->fields()->whereIn('type', [5,6])->get();
-        $this->fillCharts($this->fields->first() ?? null);
+        $this->field_id = $this->fields->first()?->id;
+        $this->fillCharts();
         $this->dispatch('toast-notify',
             type: 'success',
             message: 'Datos cargados correctamente'
@@ -36,24 +38,27 @@ class Dashboard extends Component
     {
         $this->form = $this->forms->find($this->form_id);
         $this->fields = $this->form->fields()->whereIn('type', [5,6])->get();
-        $this->fillCharts($this->fields->first() ?? null);
+        $this->field_id = $this->fields->first()?->id;
+        $this->fillCharts();
     }
 
-    public function fillCharts($field): void
+    public function fillCharts(): void
     {
-        $this->charts_title = null;
-        if ($field ?? null) {
-            $this->field_selected = $this->fields->find($field);
-        } else {
-            $this->validate([
-                'field_id' => ['required', 'integer']
-            ]);
-            $this->field_selected = $this->fields->find($this->field_id);
-        }
+        $this->validate([
+            'field_id' => ['required', 'integer']
+        ]);
+        $this->field_selected = $this->fields->find($this->field_id);
         $this->charts_title = $this->field_selected->description ?? null;
         $this->labels = [];
         $this->values = [];
         $responses = collect(PatientResponse::whereRelation('field','form_id', $this->form->id)
+            ->whereHas('patientForm', function ($patientForm) {
+                $dates = [
+                    $this->begin_date ? Carbon::parse($this->begin_date)->format('Y-m-d 00:00:00') : '2000-01-01 00:00:00',
+                    $this->end_date ? Carbon::parse($this->end_date)->format('Y-m-d 23:59:59') : date('Y-m-d H:i:s'),
+                ];
+                $patientForm->whereBetween('created_at', $dates);
+            })
             ->where('field_id', $this->field_selected->id ?? null)->get());
         if ($this->field_selected) {
             if ($this->field_selected->type == 6) {
