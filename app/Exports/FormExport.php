@@ -32,8 +32,19 @@ class FormExport implements FromArray, ShouldAutoSize
                 $patient_form->patient->email,
                 $patient_form->patient->type == 1 ? 'Adulto' : 'Niño',
             ];
-            $responses = $patient_form->formResponses()->orderBy('field_id')->pluck('answer', 'id')->toArray();
-            $array_export[] = $patient + $responses;
+            $responses = $patient_form->formResponses()->orderBy('field_id')->get();
+            $array_response = [];
+            foreach ($responses as $response) {
+                if ($response->field->type == 6) {
+                    $item = $response->field_answer?->description;
+                } elseif ($response->field->type == 5) {
+                    $item = $response->answer == 1 ? 'Sí' : 'No';
+                } else {
+                    $item = $response->answer;
+                }
+                $array_response[$response->field->id] = $item;
+            }
+            $array_export[] = $patient + $array_response;
         }
         return $array_export;
     }

@@ -13,7 +13,11 @@ class Controller extends BaseController
 
     public function homeRoute()
     {
-        return redirect(route('dashboard'));
+        $route = match (auth()->user()->role) {
+            1,2,4 => 'dashboard',
+            3 => 'initial-data-medic',
+        };
+        return redirect(route($route));
     }
 
     public function logout()

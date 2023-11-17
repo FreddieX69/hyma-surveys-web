@@ -20,6 +20,7 @@ class Dashboard extends Component
 
     public function mount(): void
     {
+        $this->authorize('Dashboard');
         $this->patients = Patient::all();
         $this->socialEconomicStudies = PatientForm::whereRelation('form', 'id', 4)->get();
         $this->forms = Form::all();
